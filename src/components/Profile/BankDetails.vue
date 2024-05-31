@@ -46,6 +46,7 @@ const AddBank = () =>{
     showModal.value = false
 };
  
+ console.log('UserDataprofile_bankDetails', UserDataprofile_bankDetails)
 </script>
 <template>
     <div class="flex flex-wrap items-center" v-if="UserName">

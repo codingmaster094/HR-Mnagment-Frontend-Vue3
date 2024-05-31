@@ -30,17 +30,17 @@ const Aboutsubmit = () => {
 
 const toggleEditMode = (id) => {
     get_dependents_id(id)
-    showModal.value = !showModal.value;
+    showModal.value = true;
 }
 
 const toggledeleteMode = (id) => {
     DeleteUserprofile_dependents(id)
-    get_dependents()
 }
 const updatedependant = (id) => {
     UpdateUserprofile_dependents(id, UserDataprofile_dependents.value)
     showModal.value = false
-};  
+    get_dependents()
+};
 
 const closeBTN = () => {
     EditShow.value = false
@@ -54,7 +54,7 @@ const closeBTN = () => {
                 <div id="div">
                     <div class="verticaltab-innercont">
                         <div>
-                            <div v-if="EditShow == false" class="grid grid-cols-1 md:grid-cols-2">
+                            <div v-if="!EditShow" class="grid grid-cols-1 md:grid-cols-2">
                                 <div class="md:col-span-1">
                                     <div class="text-left">
                                         <div v-for="(contactData, index) in UserDataprofile_dependents"
@@ -127,9 +127,10 @@ const closeBTN = () => {
                                             Save
                                         </button>
                                         <button type="button"
-                                        class="w-50 text-white mt-3 bg-red-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 ms-2" @click="closeBTN">
-                                        close
-                                    </button>
+                                            class="w-50 text-white mt-3 bg-red-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 ms-2"
+                                            @click="closeBTN">
+                                            close
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -159,14 +160,16 @@ const closeBTN = () => {
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dependents</label>
                             <input type="text" name="name" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Type product name" v-model="UserDataprofile_dependents.Dependents" required="">
+                                placeholder="Type product name" v-model="UserDataprofile_dependents.Dependents"
+                                required="">
                         </div>
                         <div class="col-span-2">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
                                 Name</label>
                             <input type="text" name="name" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Type product name"  v-model="UserDataprofile_dependents.First_Name" required="">
+                                placeholder="Type product name" v-model="UserDataprofile_dependents.First_Name"
+                                required="">
                         </div>
                         <div class="col-span-2">
                             <label for="name"
@@ -174,14 +177,16 @@ const closeBTN = () => {
                                 contact number</label>
                             <input type="text" name="name" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Type product name"  v-model="UserDataprofile_dependents.Emergency_contact_number" required="">
+                                placeholder="Type product name"
+                                v-model="UserDataprofile_dependents.Emergency_contact_number" required="">
                         </div>
                         <div class="col-span-2">
                             <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth
                                 date</label>
                             <input type="date" name="name" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Type product name"  v-model="UserDataprofile_dependents.Birth_date" required="">
+                                placeholder="Type product name" v-model="UserDataprofile_dependents.Birth_date"
+                                required="">
                         </div>
                     </div>
                     <button type="submit"
@@ -199,6 +204,4 @@ const closeBTN = () => {
     </div>
 </template>
 
-<style>
-
-</style>
+<style></style>

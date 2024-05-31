@@ -3,22 +3,21 @@ import axios from "axios";
 import { BaseURL } from '../../env.js';
 import Cookies from "js-cookie";
 
-export default function useDesk() {
-    let baseURL = BaseURL + "desk";
+export default function useRole() {
+    const baseURL = BaseURL + "user";
     const token = Cookies.get('fmljwt')
-    let UserData = ref([]);
+    let Role = ref([]);
     let ErrorMessage = ref(null);
     let statusCode = ref(null);
 
-    const GetClockIN_out = async() => {
-        UserData.value = [];
+    const RoleAccess = async() => {
+        Role.value = [];
         ErrorMessage.value = null;
         statusCode.value = null;
         try {
-            const res = await axios.post(baseURL + '/get/userIN/desk' , {} ,{ headers: { "Authorization": `Bearer ${token}` } });
-            console.log('res', res)
+            const res = await axios.post(baseURL + '/role/access' , {} ,{ headers: { "Authorization": `Bearer ${token}` } });
             if(res.status == 200){
-              UserData.value = res.data.Data
+              Role.value = res.data.response_message
             }
           } catch (err) {
             ErrorMessage.value = err;
@@ -26,9 +25,9 @@ export default function useDesk() {
     }
 
 return{
-    UserData,
+    Role,
     ErrorMessage,
     statusCode,
-    GetClockIN_out
+    RoleAccess
 }
 }

@@ -11,8 +11,6 @@ get_user_profile_reporting
 
  // Define refs for each field
  const reporting_office = ref('');
-
- console.log('UserDataprofile_reporting', UserDataprofile_reporting)
 onMounted(() => {
     get_user_profile_reporting().then(() => {
       // Update ref values with data from UserDataprofile_workdetails

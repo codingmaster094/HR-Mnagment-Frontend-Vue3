@@ -17,7 +17,7 @@ const dateRange = ref(null)
 
 const {
   get_UserLeave,
-  UserLeaveData,
+  UserLeaveData = ref([]),  // Initialize as an empty array
   LeaveBalance,
   ErrorLeaveMessage,
   statusLeaveCode,
@@ -31,20 +31,20 @@ onMounted(async () => {
   await get_UserLeave();
 });
 
-
+console.log('UserLeaveData', UserLeaveData)
 // Computed property to filter paid leave data
 const paidLeave = computed(() => {
-  return UserLeaveData.value.filter(leave => leave.Leave_type === "Paid Leave");
+  return UserLeaveData.value ? UserLeaveData.value.filter(leave => leave.Leave_type === "Paid Leave") : [];
 });
 
 // Computed property to filter unpaid leave data
 const unpaidLeave = computed(() => {
-  return UserLeaveData.value.filter(leave => leave.Leave_type === "Unpaid Leave");
+  return UserLeaveData.value ? UserLeaveData.value.filter(leave => leave.Leave_type === "Unpaid Leave") : [];
 });
 
 // Computed property to calculate total paid leave for each month
 const paidLeaveMonths = computed(() => {
-  const months = Array(12).fill(""); // Initialize months array with 0
+  const months = Array(12).fill(0); // Initialize months array with 0
   paidLeave.value.forEach(leave => {
     if (leave.Leave_is_for === '2st half' || leave.Leave_is_for === '1st half') {
       const startDate = new Date(leave.leave_date);
@@ -65,10 +65,9 @@ const paidLeaveMonths = computed(() => {
   return months;
 });
 
-
 // Computed property to calculate total unpaid leave for each month
 const unpaidLeaveMonths = computed(() => {
-  const months = Array(12).fill("");
+  const months = Array(12).fill(0);
   unpaidLeave.value.forEach(leave => {
     if (leave.Leave_is_for === '2st half' || leave.Leave_is_for === '1st half') {
       const startDate = new Date(leave.leave_date);
@@ -175,7 +174,6 @@ function formatDate(date) {
     return `${day}-${month}-${year}`;
 }
  dateRange.value = getFirstAndLastDateOfMonth();
-console.log('LeaveBalance', LeaveBalance._rawValue)
 </script>
 
 <template>

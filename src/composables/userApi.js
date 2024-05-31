@@ -19,6 +19,7 @@ export default function useUser() {
     let router = useRouter();
 
     let userLoginData = ref([]);
+    let getAlluserData = ref([]);
 
   //   Add Student Data
   const createUser = async (formData) => {
@@ -56,7 +57,7 @@ export default function useUser() {
       if(response.data.data.response_code == 200){
         Cookies.set('fmljwt', response.data.data.auth, { expires: 1 })
         Cookies.set('_id', response.data.data.data._id, { expires: 1 })
-        router.push('/attendance');
+        router.push('/home');
       }else{
         ErrorMessage.value = response.data.data.response_message
       }
@@ -65,25 +66,35 @@ export default function useUser() {
     }
   };
 
-  const Attendance_present_create = async(formData)=>{
-    try { 
-      const Form = new FormData()
-      Form.append('date', formData.date)
-      Form.append('attendace_status' , formData.attendace_status)
-      const result = await axios.post(atendanceurl + '/create/user/attendance' ,Form , { headers: { "Authorization": `Bearer ${token}` } });
-    } catch (err) {
-      ErrorMessage.value = err;
-    }
-  }
+
 
   const logoutUser = async() => {
     const response = await axios.post(Userurl + "/logout", {}, { headers: { "Authorization": `Bearer ${token}` } })
       if(response.data.status == true){
         Cookies.remove('fmljwt')
+        Cookies.remove('INOUT')
+        Cookies.remove('_id')
+        localStorage.removeItem('stopwatchHours');
+        localStorage.removeItem('stopwatchMinutes');
+        localStorage.removeItem('stopwatchSeconds');
         router.push('/')
       }
 };
 
+
+const AllUserGet = async () => {
+  try {
+    getAlluserData.value = [];
+    const response = await axios.post(
+      Userurl + "/AllUserGet",
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    getAlluserData.value = response.data.response_message;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const profileADD = async(formdata) => {
 try {
@@ -109,14 +120,16 @@ const UserGet = async()=>{
   }
 }
 
+
   return {
     UserData,
     ErrorMessage,
     statusCode,
     userLoginData,
+    getAlluserData,
     createUser,
     LoginUser, 
-    Attendance_present_create,
+    AllUserGet, 
     logoutUser,
     UserGet,
     profileADD

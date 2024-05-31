@@ -45,6 +45,7 @@ const toggledeleteMode = (id) => {
 const saveContact = (id, contactData) => {
     const Data = formDataAdd.contact = contactData.updatedcontact;
     UpdateUserprofile_contact(id, Data)
+    get_user_profile_contact()
 };
 
 const closeBTN = () => {
@@ -55,7 +56,7 @@ const closeBTN = () => {
     <div class="emp-from-wrapper imp-dates">
         <div class="form-height">
             <div id="div">
-                <div v-if="UserDataprofilecontact.length !== 0">
+                <div>
                     <div v-for="(contactData, index) in UserDataprofilecontact" :key="contactData._id">
                         <div>
                             <h2 class="text-lg ml-3 mb-3 font-semibold">Contact: {{ index + 1 }}</h2>

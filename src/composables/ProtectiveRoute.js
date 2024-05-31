@@ -12,7 +12,7 @@ export default function useprotect (){
 
     const NonprotectiveFun = () => {
         if (users) {
-            router.push('/')
+            router.push('/home')
         }
     }
 

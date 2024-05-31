@@ -9,32 +9,28 @@ const {
     get_user_profile_currentEX
 } = useUserprofile();
 
+console.log('UserDataprofile_currentEX', UserDataprofile_currentEX)
 // Define refs for each field
 const disignation = ref('');
 const company = ref('');
 const DOJ = ref('');
 
 onMounted(() => {
-    get_user_profile_currentEX().then(() => {
-        const data = UserDataprofile_currentEX._rawValue;
-        disignation.value = data.disignation;
-        company.value = data.company;
-        DOJ.value = data.DOJ;
-    });
+    get_user_profile_currentEX()
 });
 </script>
 <template>
     <div class="emp-from-wrapper imp-dates">
         <div class="form-height">
-            <div id="div">
+            <div id="div" v-for="data in UserDataprofile_currentEX">
                 <div class="margin-bottom-20 ml-3 mb-3 dependent-datepicker width100">
-                    <div class="address-data">{{ disignation }}</div>
+                    <div class="address-data">{{ data.disignation }}</div>
                 </div>
                 <div class="margin-bottom-20 ml-3 mb-3 dependent-datepicker width100">
-                    <div class="address-data">{{ company }}</div>
+                    <div class="address-data">{{ data.company }}</div>
                 </div>
                 <div class="margin-bottom-20 ml-3 mb-3 dependent-datepicker width100">
-                    <div class="address-data">{{ DOJ }} to Present</div>
+                    <div class="address-data">{{ data.DOJ }} to Present</div>
                 </div>
             </div>
         </div>

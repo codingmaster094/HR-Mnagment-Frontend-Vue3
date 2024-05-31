@@ -1,8 +1,10 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
 import useUser from "../../composables/userApi.js";
-const { userLoginData, profileADD, UserGet } = useUser();
+import { BriefcaseIcon, PhoneIcon } from '@heroicons/vue/solid';
+const { UserData, getAlluserData, userLoginData, profileADD, UserGet, AllUserGet } = useUser();
 
+const showModal = ref(false);
 const formData = reactive({
     profile_image: null,
 });
@@ -10,6 +12,7 @@ const formData = reactive({
 let UserName = null;
 onMounted(async () => {
     await UserGet()
+    await AllUserGet()
 })
 if (userLoginData) {
     try {
@@ -23,6 +26,10 @@ const handleFileChange = async (event) => {
     formData.profile_image = event.target.files[0];
     profileADD(formData)
     await UserGet()
+};
+
+const AllDepartment = () => {
+    showModal.value = true
 };
 </script>
 <template>
@@ -118,10 +125,56 @@ const handleFileChange = async (event) => {
                     </td>
                 </tr>
                 <tr>
-                    <td class="">Department</td>
+                    <td class="">
+                        <button type="button"
+                            class="w-50 text-white mt-3 bg-violet-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            @click="AllDepartment">
+                            All Department
+                        </button>
+                    </td>
                 </tr>
 
             </table>
+        </div>
+    </div>
+
+    <div v-if="showModal"
+        class="fixed z-10 inset-0 overflow-y-auto overflow-x-hidden flex justify-end items-center bg-black bg-opacity-50">
+        <div class="relative p-4 w-full max-w-xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Apply Leave
+                    </h3>
+                </div>
+                <!-- Modal body -->
+                <div class="w-full" v-for="user in getAlluserData">
+                    <div class="flex gap-3 p-3 border-2 ">
+                        <div>
+                            <div class="text-center relative attendance-reletive mt-2 mb-2"
+                                v-if="user.profile_image != null">
+                                <img :src="user.profile_image" class="rounded-full w-10 h-10 mr-2" alt="Profile Image">
+                            </div>
+                            <div class="text-center relative attendance-reletive mt-2 mb-2" v-else>
+                                <img src="../../assets/user.png" class="rounded-full w-10 h-10 mr-2" alt="Profile Image">
+                            </div>
+                        </div>
+                        <div>
+                           <div>{{ user.name }}</div>
+                           <div class="flex items-center" ><BriefcaseIcon class="h-5 w-5 me-2" />{{ user.designation }}</div>
+                           <div class="flex items-center" ><PhoneIcon class="h-5 w-5 me-2"/>{{ user.mobile_no }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button"
+                    class=" mt-3 text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-2"
+                    @click="showModal = false">
+                    Close
+                </button>
+            </div>
         </div>
     </div>
 </template>

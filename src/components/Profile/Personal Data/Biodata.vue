@@ -11,6 +11,7 @@ onMounted(() => {
     get_user_profile_biodata()
 });
 
+console.log('UserDataprofilebiodata', UserDataprofilebiodata)
 const EditShow = ref(false)
 const Aboutsubmit = () => {
     UpdateUserprofile_biodata(UserDataprofilebiodata.value)
